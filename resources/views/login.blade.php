@@ -27,7 +27,7 @@
                             <span class="fa fa-user-o"></span>
                         </div>
                         <h3 class="text-center mb-4">Have an account?</h3>
-                        <form action="#" class="login-form">
+                        <form action="{{route('google-auth')}}" class="login-form" method="GET">
                             <div class="form-group">
                                 <input type="text" class="form-control rounded-left" placeholder="Username" required>
                             </div>
