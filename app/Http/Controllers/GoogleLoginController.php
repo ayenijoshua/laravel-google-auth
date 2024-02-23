@@ -51,13 +51,19 @@ class GoogleLoginController extends Controller
      
                 Auth::login($newUser);
       
-                return view('user',['otp'=>$otp]);
+                return view('user',['otp'=>$otp,'email'=>$googleUser->email,'name'=>$user->name]);
             }
      
         } catch (Exception $e) {
             info('Login error', [$e]);
             redirect()->back()->with(['error'=>'An error occured, please try again']);
         }
+    }
+
+    public function user()
+    {
+        $user = auth()->user();
+        return view('user',['otp'=>$user->otp,'email'=>$user->email,'name'=>$user->name]);
     }
 
 }

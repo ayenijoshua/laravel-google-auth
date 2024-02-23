@@ -20,3 +20,4 @@ Route::get('/', function () {
 
 Route::get('google-auth', [GoogleLoginController::class, 'signIn'])->name('google-auth');
 Route::get('callback', [GoogleLoginController::class, 'callback']);
+Route::get('user', [GoogleLoginController::class, 'user']);
