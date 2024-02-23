@@ -18,15 +18,11 @@ class GoogleLoginController extends Controller
     }
     public function callback()
     {
-        try {
-     
-            $googleUser = Socialite::driver('google')->user();
-        } catch (Exception $e) {
-            info('Google auth error', [$e]);
-            redirect()->back()->with(['error'=>'An error in Google authentication, please try again']);
-        }
 
         try{
+            Auth::logout();
+            $googleUser = Socialite::driver('google')->user();
+
             $user = User::where('gauth_id', $googleUser->id)->first();
 
             $otp = \Str::random(5);
@@ -37,7 +33,7 @@ class GoogleLoginController extends Controller
 
                 ExpireOtp::dispatch($user);
      
-                return view('user',['otp'=>$otp]);
+                return view('user',['otp'=>$otp,'email'=>$googleUser->email,'name'=>$googleUser->name]);
       
             }else{
                 $newUser = User::create([
@@ -51,7 +47,7 @@ class GoogleLoginController extends Controller
      
                 Auth::login($newUser);
       
-                return view('user',['otp'=>$otp,'email'=>$googleUser->email,'name'=>$user->name]);
+                return view('user',['otp'=>$otp,'email'=>$googleUser->email,'name'=>$googleUser->name]);
             }
      
         } catch (Exception $e) {
